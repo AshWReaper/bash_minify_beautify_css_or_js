@@ -49,7 +49,11 @@ case "$extension" in
         unminify_tool="js-beautify --css $filename >"
         ;;
     js)
-        minify_tool="uglifyjs $filename >"
+        if [ "$generate_map" = "yes" ]; then
+            minify_tool="uglifyjs $filename --source-map \"url='$basename.min.js.map'\" -o"
+        else
+            minify_tool="uglifyjs $filename -o"
+        fi
         unminify_tool="js-beautify --js $filename >"
         ;;
     *)
